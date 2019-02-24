@@ -22,8 +22,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
       // Assign
       this._el = element;
+      this.window = $(window);
       this._element = $(element);
-      this.targetMenu = $(element).clone();
       this.defaults = {
         target: this._element,
         menuContainer: "body",
@@ -44,7 +44,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       };
       this._config = $.extend(this.defaults, config);
       this.rtMenuExist = false;
-      this.currentWidth = window.innerWidth || document.documentElement.clientWidth;
       this.is_mobile = navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/Blackberry/i) || navigator.userAgent.match(/Windows Phone/i);
       this.logo = this._config.siteLogoId ? $("#" + this._config.siteLogoId).clone().html() : this._config.siteLogo;
       this.init();
@@ -68,7 +67,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           $('<div class="rt-mmneu-logo" />').append(this.logo).appendTo(menu);
         }
 
-        var new_menu = $('<nav class="rt-mmenu-nav" />').append(this.getMenu(this.targetMenu));
+        var new_menu = $('<nav class="rt-mmenu-nav" />').append(this.getMenu(this._element.clone()));
         new_menu.find('nav.rt-mmenu-nav ul li').removeAttr("class").removeAttr("id");
         new_menu.appendTo(menu);
         menu.prependTo($('.' + this._config.menuContainerClass));
@@ -80,9 +79,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var menuItem = $('<ul />');
           var item = this;
           target.find('> ul > li').each(function () {
-            var txt = $(this).find(' > a').removeAttr('class').removeAttr('id'),
-                hMenu = item.getMenu($(this));
-            $('<li />').append(txt).append(hMenu).appendTo(menuItem);
+            var link = $(this).find(' > a').removeAttr('class').removeAttr('id');
+            var hMenu = item.getMenu($(this));
+            $('<li />').append(link).append(hMenu).appendTo(menuItem);
           });
           return menuItem;
         }
@@ -92,7 +91,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "renderMenu",
       value: function renderMenu() {
-        if (this.currentWidth <= this._config.screenWidth) {
+        var currentWidth = window.innerWidth || document.documentElement.clientWidth;
+        ;
+
+        if (currentWidth <= this._config.screenWidth) {
           if (this.rtMenuExist === false) {
             this.createMenu();
           }
@@ -103,12 +105,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "init",
       value: function init() {
-        var refThis = this;
-        $(window).resize(function () {
-          console.log(refThis);
+        window.onresize = this.renderMenu.bind(this); // var _this = this;
 
-          refThis.__proto__.renderMenu();
-        });
         this.renderMenu();
       }
     }]);
