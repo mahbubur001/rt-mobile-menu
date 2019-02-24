@@ -53,7 +53,7 @@
                 menu.addClass('rt-has-logo');
                 $('<div class="rt-mmneu-logo" />').append(this.logo).appendTo(menu);
             }
-            var new_menu = $('<nav class="rt-mmenu-nav" />').append(this.getMenu(this.targetMenu))
+            const new_menu = $('<nav class="rt-mmenu-nav" />').append(this.getMenu(this.targetMenu))
             new_menu.find('nav.rt-mmenu-nav ul li').removeAttr("class").removeAttr("id");
             new_menu.appendTo(menu);
             menu.prependTo($('.' + this._config.menuContainerClass));
