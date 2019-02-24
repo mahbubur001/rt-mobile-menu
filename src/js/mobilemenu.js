@@ -13,6 +13,7 @@
             this._el = element;
             this.window = $(window);
             this._element = $(element);
+            this.targetMenu = $(element).clone();
             this.defaults = {
                 target: this._element,
                 menuContainer: "body",
@@ -52,7 +53,7 @@
                 menu.addClass('rt-has-logo');
                 $('<div class="rt-mmneu-logo" />').append(this.logo).appendTo(menu);
             }
-            var new_menu = $('<nav class="rt-mmenu-nav" />').append(this.getMenu(this._element.clone()))
+            var new_menu = $('<nav class="rt-mmenu-nav" />').append(this.getMenu(this.targetMenu))
             new_menu.find('nav.rt-mmenu-nav ul li').removeAttr("class").removeAttr("id");
             new_menu.appendTo(menu);
             menu.prependTo($('.' + this._config.menuContainerClass));
@@ -63,7 +64,7 @@
                 const menuItem = $('<ul />');
                 const item = this;
                 target.find('> ul > li').each(function () {
-                    const link = $(this).find(' > a').removeAttr('class').removeAttr('id');
+                    const link = $(this).find(' > a').removeAttr('class').removeAttr('id').clone();
                     const hMenu = item.getMenu($(this));
                     $('<li />').append(link).append(hMenu).appendTo(menuItem);
                 });

@@ -24,6 +24,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       this._el = element;
       this.window = $(window);
       this._element = $(element);
+      this.targetMenu = $(element).clone();
       this.defaults = {
         target: this._element,
         menuContainer: "body",
@@ -67,7 +68,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           $('<div class="rt-mmneu-logo" />').append(this.logo).appendTo(menu);
         }
 
-        var new_menu = $('<nav class="rt-mmenu-nav" />').append(this.getMenu(this._element.clone()));
+        var new_menu = $('<nav class="rt-mmenu-nav" />').append(this.getMenu(this.targetMenu));
         new_menu.find('nav.rt-mmenu-nav ul li').removeAttr("class").removeAttr("id");
         new_menu.appendTo(menu);
         menu.prependTo($('.' + this._config.menuContainerClass));
@@ -79,7 +80,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var menuItem = $('<ul />');
           var item = this;
           target.find('> ul > li').each(function () {
-            var link = $(this).find(' > a').removeAttr('class').removeAttr('id');
+            var link = $(this).find(' > a').removeAttr('class').removeAttr('id').clone();
             var hMenu = item.getMenu($(this));
             $('<li />').append(link).append(hMenu).appendTo(menuItem);
           });
