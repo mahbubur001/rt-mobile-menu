@@ -5,4 +5,4 @@ if (!Mix.inProduction()) {
     mix.sourceMaps();
 }
 mix.babel(`src/js/mobilemenu.js`, `dist/mobilemenu${min}.js`);
-// mix.sass(`src/scss/admin.scss`, `assets/css/admin${min}.css`);
+mix.sass(`src/scss/mobilemenu.scss`, `dist/mobilemenu${min}.css`);
